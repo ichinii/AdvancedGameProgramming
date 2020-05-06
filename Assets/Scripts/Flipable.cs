@@ -5,6 +5,9 @@ using UnityEngine;
 public class Flipable : MonoBehaviour
 {
     [SerializeField] private SpringJoint m_flipJoint;
+    [SerializeField] private Vector3 m_prevLocalPosition;
+    [SerializeField] private Quaternion m_prevLocalRotation;
+    [SerializeField] private Vector3 m_prevLocalScale;
 
     public bool isFlipable {
         get { return GetComponent<Rigidbody>().IsSleeping(); }
@@ -12,13 +15,27 @@ public class Flipable : MonoBehaviour
 
     void Start()
     {
-        
+        // make sure we have valid stand position to start with, though it might be invalid. should never be read actually
+        noticeStandPosition();
     }
 
     void Update()
     {
-        if (m_flipJoint != null)
-            Debug.DrawLine(transform.localToWorldMatrix * v4(m_flipJoint.anchor), m_flipJoint.connectedBody.position, Color.red);
+        var rigidBody = GetComponent<Rigidbody>();
+        if (rigidBody.IsSleeping()) {
+
+            // are we standing on our bottom? is the center of mass between our left and right foot
+            var center = rigidBody.worldCenterOfMass;
+            var leftFoot = transform.position - transform.up * 0.5f - transform.right * 0.25f;
+            var rightFoot = transform.position - transform.up * 0.5f + transform.right * 0.25f;
+            bool isStanding = center.x > leftFoot.x && center.x < rightFoot.x;
+
+            if (isStanding) {
+                noticeStandPosition();
+            } else {
+                resetPosition();
+            }
+        }
     }
 
     public void createFlipJoint(Rigidbody connectedBody, Vector3 point)
@@ -36,13 +53,32 @@ public class Flipable : MonoBehaviour
         m_flipJoint.connectedAnchor = new Vector3(0, 0, 0);
     }
 
-    public void releaseFlipJoint() {
+    public void releaseFlipJoint()
+    {
         if (m_flipJoint)
             Destroy(m_flipJoint);
         m_flipJoint = null;
     }
 
-    public Vector4 v4(Vector3 v) {
-        return new Vector4(v.x, v.y, v.z, 1);
+    public void noticeStandPosition()
+    {
+        m_prevLocalPosition = transform.localPosition;
+        m_prevLocalRotation = transform.localRotation;
+        m_prevLocalScale = transform.localScale;
+    }
+
+    public void resetPosition()
+    {
+        transform.localPosition = m_prevLocalPosition;
+        transform.localRotation = m_prevLocalRotation;
+        transform.localScale = m_prevLocalScale;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (m_flipJoint != null) {
+            var flipJointAnchor = new Vector4(m_flipJoint.anchor.x, m_flipJoint.anchor.y, m_flipJoint.anchor.z, 1.0f);
+            Debug.DrawLine(transform.localToWorldMatrix * flipJointAnchor, m_flipJoint.connectedBody.position, Color.red);
+        }
     }
 }
