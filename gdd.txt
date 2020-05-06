@@ -1,0 +1,26 @@
+must have featues
+	is flipable indication (is standing on ground)
+	flipping indication (a rope connecting cursor and object)
+	finish
+	level rotation
+	persist what levels have been done
+	was flipped midair
+	menu
+		start screen
+		level selection
+		pause menu
+	level 1
+	level 2
+	camera movement (sidescrolling)
+	check update/physicsUpdate correctnes
+	
+done featues
+	have a flipable object and be able to flip it
+	reset flipable object position if flip was incorrect
+		standing on bottom
+
+nice to have
+	level 3
+	different flipable types
+		bottle - cas only stand on bottom
+		can - can stand on bottom and top (easier)
