@@ -1,10 +1,10 @@
 must have featues
 	is flipable indication (is standing on ground)
 	flipping indication (a rope connecting cursor and object)
+	polish flipping (dont be able to move the cursor everywhere)
 	finish
 	level rotation
 	persist what levels have been done
-	was flipped midair
 	menu
 		start screen
 		level selection
@@ -13,14 +13,18 @@ must have featues
 	level 2
 	camera movement (sidescrolling)
 	check update/physicsUpdate correctnes
-	
-done featues
-	have a flipable object and be able to flip it
-	reset flipable object position if flip was incorrect
-		standing on bottom
+	dynamically spawn prefabs
 
 nice to have
 	level 3
 	different flipable types
 		bottle - cas only stand on bottom
 		can - can stand on bottom and top (easier)
+	tell the player how awesome he is: "360 FLIP !" "its over 9000 !!!"
+	restart flip button - if the player surrenders to his flip, he can reset the bottle right away
+	
+done featues
+	have a flipable object and be able to flip it
+	reset flipable object position if flip was incorrect
+		standing on bottom
+	was flipped midair

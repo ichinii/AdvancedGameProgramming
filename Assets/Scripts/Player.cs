@@ -18,17 +18,17 @@ public class Player : MonoBehaviour
     void Update()
     {
         // update flipables
-        m_flipables = queryFlipables();
+        m_flipables = QueryFlipables();
 
-        var closest = closestFlipable();
+        var closest = ClosestFlipable();
         closest = closest == null || closest.distance > m_cursorRange ? null : closest;
 
         if (Input.GetKeyDown(KeyCode.Mouse1)) {
             // be on the save side and release all flipjoints
-            releaseFlipJoints();
+            ReleaseFlipJoints();
 
             if (closest != null) {
-                closest.transform.GetComponent<Flipable>().createFlipJoint(
+                closest.transform.GetComponent<Flipable>().CreateFlipJoint(
                     m_cursor.GetComponent<Rigidbody>(),
                     closest.point);
             }
@@ -36,11 +36,11 @@ public class Player : MonoBehaviour
 
         // remove flipjoint when releasing
         if (Input.GetKeyUp(KeyCode.Mouse1)) {
-            releaseFlipJoints();
+            ReleaseFlipJoints();
         }
     }
 
-    private Transform[] queryFlipables()
+    private Transform[] QueryFlipables()
     {
         var flipables = new Transform[m_flipablesContainer.childCount];
         var flipableTransforms = m_flipablesContainer.GetComponentsInChildren<Transform>();
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
         public float distance;
     }
 
-    private ClosestTransform closestFlipable()
+    private ClosestTransform ClosestFlipable()
     {
         var closest = new ClosestTransform();
 
@@ -79,16 +79,16 @@ public class Player : MonoBehaviour
         return closest.transform ? closest : null;
     }
 
-    private void releaseFlipJoints()
+    private void ReleaseFlipJoints()
     {
         foreach (Transform flipable in m_flipables) {
-            flipable.GetComponent<Flipable>().releaseFlipJoint();
+            flipable.GetComponent<Flipable>().ReleaseFlipJoint();
         }
     }
 
     private void OnDrawGizmos()
     {
-        var closest = closestFlipable();
+        var closest = ClosestFlipable();
         if (closest != null && closest.distance <= m_cursorRange) {
             Debug.DrawLine(m_cursor.transform.position, closest.point, Color.green);
         }
