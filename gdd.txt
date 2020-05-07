@@ -1,5 +1,4 @@
 must have featues
-	persist what levels have been done
 	check update/physicsUpdate correctnes
 	camera movement (sidescrolling), dont move while player interaction
 	flipping indication (a rope connecting cursor and object)
@@ -29,3 +28,4 @@ done featues
 	level 2
 	level rotation
 	finish
+	persist recently played level

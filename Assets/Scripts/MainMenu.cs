@@ -1,31 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Button m_continueGameButton;
+
     void Start()
     {
-        //StateController.Instance.TransitionMainMenu();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        m_continueGameButton.enabled = PersistController.Instance.RecentLevel > StateController.Instance.FirstLevelIndex;
     }
 
     public void ActionContinueGame()
     {
         Debug.Log("ActionContinueGame");
-        StateController.Instance.TransitionPlaying(1);
+        StateController.Instance.TransitionPlaying(PersistController.Instance.RecentLevel);
     }
 
     public void ActionNewGame()
     {
         Debug.Log("ActionNewGame");
-        StateController.Instance.TransitionPlaying(1);
+        StateController.Instance.TransitionPlaying(StateController.Instance.FirstLevelIndex);
     }
 
     public void ActionQuit()

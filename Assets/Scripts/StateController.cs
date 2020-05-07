@@ -22,6 +22,10 @@ public class StateController : Singleton<StateController>
     [SerializeField] private GameObject m_pauseMenu;
     [SerializeField] private GameObject m_gameHud;
 
+    public int FirstLevelIndex {
+        get { return m_firstLevelIndex; }
+    }
+
     void Awake()
     {
         Debug.Log("StateController instantiated");
@@ -36,11 +40,6 @@ public class StateController : Singleton<StateController>
 
         // initial state is MainMenu
         m_state = State.MainMenu;
-    }
-
-    void Update()
-    {
-
     }
 
     public void TransitionMainMenu()
@@ -112,6 +111,8 @@ public class StateController : Singleton<StateController>
 
     public void TransitionPlaying(int level)
     {
+        level = ValidateLevel(level);
+
         Debug.Log("TransitionPlaying (prev level = " + m_currentLevel + ", new level = " + level + ")");
         Debug.Log("TransitionPlaying state = " + m_state);
 
@@ -170,6 +171,12 @@ public class StateController : Singleton<StateController>
     {
         m_isLevelLoaded = true;
         m_currentLevel = level;
+        PersistController.Instance.RecentLevel = level;
         SceneManager.LoadScene("Level" + level + "Scene");
+    }
+
+    private int ValidateLevel(int level)
+    {
+        return Mathf.Clamp(level, m_firstLevelIndex, m_firstLevelIndex + m_levelCount - 1);
     }
 }
