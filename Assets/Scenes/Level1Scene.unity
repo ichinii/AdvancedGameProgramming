@@ -405,6 +405,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_flipJoint: {fileID: 0}
+  m_prevLocalPosition: {x: 0, y: 0, z: 0}
+  m_prevLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_prevLocalScale: {x: 0, y: 0, z: 0}
+  m_prevUp: {x: 0, y: 0, z: 0}
+  m_standAngle: 0
+  m_flipAngle: 0
+  m_flipAngleSign: 0
+  m_flipCount: 0
 --- !u!54 &432809608
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -486,8 +494,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 432809606}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.224, y: 0.70329905, z: -2.2196655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.224, y: 0.21, z: -2.2196655}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1243235976}
@@ -933,6 +941,7 @@ MonoBehaviour:
   m_cursor: {fileID: 356569685}
   m_flipablesContainer: {fileID: 1243235976}
   m_flipables: []
+  m_cursorRange: 2
 --- !u!4 &1790350741
 Transform:
   m_ObjectHideFlags: 0
