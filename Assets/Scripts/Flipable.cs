@@ -141,6 +141,7 @@ public class Flipable : MonoBehaviour
 
     public void ResetFlipCountValid()
     {
+        Debug.Log("ReseFlipCountValid");
         ResetFlipCountInvalid();
         m_flipCount = 1;
     }
@@ -184,6 +185,8 @@ public class Flipable : MonoBehaviour
                 }
             }
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+            StateController.Instance.RotateLevel();
     }
 
     private void OnDrawGizmos()

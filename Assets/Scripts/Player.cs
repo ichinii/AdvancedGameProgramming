@@ -10,11 +10,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform[] m_flipables;
     public float m_cursorRange = 2.0f;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         // update flipables

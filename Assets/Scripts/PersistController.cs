@@ -48,4 +48,9 @@ public class PersistController : Singleton<PersistController>
         FileStream file = File.Open(m_filePath, FileMode.Create);
         formatter.Serialize(file, m_recentLevel);
     }
+
+    public void Reset()
+    {
+        RecentLevel = -1;
+    }
 }

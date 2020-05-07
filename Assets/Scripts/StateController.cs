@@ -16,7 +16,7 @@ public class StateController : Singleton<StateController>
     [SerializeField] private bool m_isLevelLoaded = false;
     [SerializeField] private int m_currentLevel;
     [SerializeField] private const int m_firstLevelIndex = 1;
-    [SerializeField] private const int m_levelCount = 2;
+    [SerializeField] private const int m_levelCount = 3;
     public GameObject m_pauseMenuPrefab;
     public GameObject m_gameHudPrefab;
     [SerializeField] private GameObject m_pauseMenu;
@@ -44,26 +44,27 @@ public class StateController : Singleton<StateController>
 
     public void TransitionMainMenu()
     {
-        // go to main menu in any case
         Debug.Log("TransitionMainMenu state = " + m_state);
 
         switch (m_state) {
         case State.MainMenu:
+            // crash shortcut for debug purposes, should never happen
             Assert.IsTrue(false);
             break;
         case State.PauseMenu:
+            // destroy pause menu
             Assert.IsNotNull(m_pauseMenu);
             Destroy(m_pauseMenu);
             m_pauseMenu = null;
+
+            // unpause timescale
+            Time.timeScale = 1.0f;
+
             m_state = State.MainMenu;
             SceneManager.LoadScene("MainMenuScene");
             break;
         case State.Playing:
-            // destroy game hud
-            Assert.IsNotNull(m_gameHud);
-            Destroy(m_gameHud);
-            m_gameHud = null;
-
+            DestroyGameHud();
             m_state = State.MainMenu;
             SceneManager.LoadScene("MainMenuScene");
             break;
@@ -80,19 +81,13 @@ public class StateController : Singleton<StateController>
             Assert.IsTrue(false);
             break;
         case State.PauseMenu:
-            // crash shortcut for debug purposes, should never happen. maybe do nothing here
+            // crash shortcut for debug purposes, should never happen
             Assert.IsTrue(false);
             break;
         case State.Playing:
-            // create pause menu
-            Assert.IsNull(m_pauseMenu);
-            m_pauseMenu = Instantiate(m_pauseMenuPrefab, transform);
-            Assert.IsNotNull(m_pauseMenu);
-
             // destroy game hud
-            Assert.IsNotNull(m_gameHud);
-            Destroy(m_gameHud);
-            m_gameHud = null;
+            DestroyGameHud();
+            CreatePauseMenu();
 
             // pause by time scale
             Time.timeScale = 0.0f;
@@ -120,11 +115,7 @@ public class StateController : Singleton<StateController>
         case State.MainMenu:
             m_state = State.Playing;
 
-            // create pause menu
-            Assert.IsNull(m_gameHud);
-            m_gameHud = Instantiate(m_gameHudPrefab, transform);
-            Assert.IsNotNull(m_gameHud);
-
+            CreateGameHud();
             LoadLevelScene(level);
             break;
         case State.PauseMenu:
@@ -133,15 +124,8 @@ public class StateController : Singleton<StateController>
             // level must be loaded
             Assert.IsTrue(m_isLevelLoaded);
 
-            // destroy pause menu
-            Assert.IsNotNull(m_pauseMenu);
-            Destroy(m_pauseMenu);
-            m_pauseMenu = null;
-
-            // create game hud
-            Assert.IsNull(m_gameHud);
-            m_gameHud = Instantiate(m_gameHudPrefab, transform);
-            Assert.IsNotNull(m_gameHud);
+            DestroyPauseMenu();
+            CreateGameHud();
 
             // unpause timescale
             Time.timeScale = 1.0f;
@@ -157,14 +141,21 @@ public class StateController : Singleton<StateController>
 
     public void RotateLevel()
     {
-        //PersistController.Instance.Persist(m_currentLevel);
+        // we are rotating away from the last level
+        if (m_currentLevel == m_firstLevelIndex + m_levelCount - 1) {
+            // reset persistance
+            PersistController.Instance.Reset();
+            // go to main menu, because we have no end screen yet
+            TransitionMainMenu();
+        }
 
         // increment level
-        int level = (m_currentLevel + 1) % (m_levelCount + m_firstLevelIndex);
-        // after full rotation, go to the first level
-        // TODO: dont go to the first level. use an end screen instead
-        level = Mathf.Max(level, m_firstLevelIndex);
-        TransitionPlaying(level);
+        else {
+            // rotate, be on the save side
+            int level = (m_currentLevel + 1) % (m_levelCount + m_firstLevelIndex);
+            level = ValidateLevel(level);
+            TransitionPlaying(level);
+        }
     }
 
     private void LoadLevelScene(int level)
@@ -178,5 +169,33 @@ public class StateController : Singleton<StateController>
     private int ValidateLevel(int level)
     {
         return Mathf.Clamp(level, m_firstLevelIndex, m_firstLevelIndex + m_levelCount - 1);
+    }
+
+    private void CreateGameHud()
+    {
+        Assert.IsNull(m_gameHud);
+        m_gameHud = Instantiate(m_gameHudPrefab, transform);
+        Assert.IsNotNull(m_gameHud);
+    }
+
+    private void DestroyGameHud()
+    {
+        Assert.IsNotNull(m_gameHud);
+        Destroy(m_gameHud);
+        m_gameHud = null;
+    }
+
+    private void CreatePauseMenu()
+    {
+        Assert.IsNull(m_pauseMenu);
+        m_pauseMenu = Instantiate(m_pauseMenuPrefab, transform);
+        Assert.IsNotNull(m_pauseMenu);
+    }
+
+    private void DestroyPauseMenu()
+    {
+        Assert.IsNotNull(m_pauseMenu);
+        Destroy(m_pauseMenu);
+        m_pauseMenu = null;
     }
 }

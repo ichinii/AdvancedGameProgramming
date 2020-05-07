@@ -1,9 +1,7 @@
 must have featues
 	check update/physicsUpdate correctnes
-	camera movement (sidescrolling), dont move while player interaction
 	flipping indication (a rope connecting cursor and object)
 	polish flipping (dont be able to move the cursor everywhere)
-	fix bug: play -> pause -> main menu -> play: bottle does not become flipable -> pause -> play: bottle is flipable
 
 nice to have
 	polish level 1 and 2
@@ -14,6 +12,7 @@ nice to have
 	tell the player how awesome he is: "360 FLIP !" "its over 9000 !!!"
 	restart flip button - if the player surrenders to his flip, he can reset the bottle right away
 	dynamically spawn ingame prefabs
+	camera movement (sidescrolling), dont move while player interaction
 	
 done featues
 	have a flipable object and be able to flip it
