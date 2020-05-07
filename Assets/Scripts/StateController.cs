@@ -105,6 +105,7 @@ public class StateController : Singleton<StateController>
 
     public void TransitionPlaying()
     {
+        // transition to playing state, but level must be loaded already, thus no level is specified in the parameter list
         Assert.IsTrue(m_isLevelLoaded);
         TransitionPlaying(m_currentLevel);
     }
