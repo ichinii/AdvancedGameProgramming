@@ -4,12 +4,11 @@ must have featues
 	finish
 	level rotation
 	persist what levels have been done
-	level 1
-	level 2
-	camera movement (sidescrolling)
+	camera movement (sidescrolling), dont move while player interaction
 	check update/physicsUpdate correctnes
 
 nice to have
+	polish level 1 and 2
 	level 3
 	different flipable types
 		bottle - cas only stand on bottom
@@ -27,3 +26,5 @@ done featues
 	pause menu
 	dynamically spawn prefabs (pause menu, game hud)
 	is flipable indication (is standing on ground)
+	level 1
+	level 2

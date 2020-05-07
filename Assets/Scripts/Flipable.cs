@@ -14,6 +14,9 @@ public class Flipable : MonoBehaviour
     [SerializeField] private float m_flipAngleSign;
     [SerializeField] private int m_flipCount;
 
+    public float m_footHorizontalOffset = 0.5f;
+    public float m_footVerticalOffset = -1.0f;
+
     public bool isFlipable {
         get { return IsStanding(); }
     }
@@ -39,6 +42,9 @@ public class Flipable : MonoBehaviour
             // indicate that body is ready to be flipped
             var material = GetComponent<MeshRenderer>().material;
             material.SetColor("_BaseColor", new Color(0x55 / 255.0f, 0xFA / 255.0f, 0xBE / 255.0f, 1.0f));
+
+            // see if level is finished
+            TryFinishLevel();
         }
         
         // body not moving but hasn't been flipped correctly
@@ -106,11 +112,19 @@ public class Flipable : MonoBehaviour
 
         // are we upright / standing on our bottom? see if the center of mass is between our left and right foot
         var center = rigidBody.worldCenterOfMass;
-        var leftFoot = transform.position - transform.up * 0.5f - transform.right * 0.25f;
-        var rightFoot = transform.position - transform.up * 0.5f + transform.right * 0.25f;
-        bool isUpright = center.x > leftFoot.x && center.x < rightFoot.x;
+        bool isUpright = center.x > LeftFootPosition().x && center.x < RightFootPosition().x;
 
         return rigidBody.IsSleeping() && isUpright;
+    }
+
+    public Vector3 LeftFootPosition()
+    {
+        return transform.position + transform.up * m_footVerticalOffset - transform.right * m_footHorizontalOffset;
+    }
+
+    public Vector3 RightFootPosition()
+    {
+        return transform.position + transform.up * m_footVerticalOffset + transform.right * m_footHorizontalOffset;
     }
 
     public bool WasFlipped()
@@ -157,8 +171,29 @@ public class Flipable : MonoBehaviour
         }
     }
 
+    private void TryFinishLevel()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -transform.up, out hit)) {
+            if (hit.collider) {
+                var goalGround = hit.collider.GetComponent<GoalGround>();
+                if (goalGround != null && goalGround.IsGoalGround) {
+                    // we finished this level (yay)
+                    Debug.Log("goal");
+                    StateController.Instance.RotateLevel();
+                }
+            }
+        }
+    }
+
     private void OnDrawGizmos()
     {
+        var leftFoot = LeftFootPosition();
+        var rightFoot = RightFootPosition();
+        var radius =  new Vector3(0, 0, 0.5f);
+        Debug.DrawLine(leftFoot - radius, leftFoot + radius, Color.yellow);
+        Debug.DrawLine(rightFoot - radius, rightFoot + radius, Color.red);
+
         if (m_flipJoint != null) {
             var flipJointAnchor = new Vector4(m_flipJoint.anchor.x, m_flipJoint.anchor.y, m_flipJoint.anchor.z, 1.0f);
             Debug.DrawLine(transform.localToWorldMatrix * flipJointAnchor, m_flipJoint.connectedBody.position, Color.red);

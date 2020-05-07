@@ -16,7 +16,7 @@ public class StateController : Singleton<StateController>
     [SerializeField] private bool m_isLevelLoaded = false;
     [SerializeField] private int m_currentLevel;
     [SerializeField] private const int m_firstLevelIndex = 1;
-    [SerializeField] private const int m_levelCount = 1;
+    [SerializeField] private const int m_levelCount = 2;
     public GameObject m_pauseMenuPrefab;
     public GameObject m_gameHudPrefab;
     [SerializeField] private GameObject m_pauseMenu;
