@@ -1,11 +1,10 @@
 must have featues
+	persist what levels have been done
+	check update/physicsUpdate correctnes
+	camera movement (sidescrolling), dont move while player interaction
 	flipping indication (a rope connecting cursor and object)
 	polish flipping (dont be able to move the cursor everywhere)
-	finish
-	level rotation
-	persist what levels have been done
-	camera movement (sidescrolling), dont move while player interaction
-	check update/physicsUpdate correctnes
+	fix bug: play -> pause -> main menu -> play: bottle does not become flipable -> pause -> play: bottle is flipable
 
 nice to have
 	polish level 1 and 2
@@ -28,3 +27,5 @@ done featues
 	is flipable indication (is standing on ground)
 	level 1
 	level 2
+	level rotation
+	finish
