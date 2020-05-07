@@ -5,12 +5,10 @@ must have featues
 	finish
 	level rotation
 	persist what levels have been done
-	pause menu
 	level 1
 	level 2
 	camera movement (sidescrolling)
 	check update/physicsUpdate correctnes
-	dynamically spawn prefabs
 
 nice to have
 	level 3
@@ -19,6 +17,7 @@ nice to have
 		can - can stand on bottom and top (easier)
 	tell the player how awesome he is: "360 FLIP !" "its over 9000 !!!"
 	restart flip button - if the player surrenders to his flip, he can reset the bottle right away
+	dynamically spawn ingame prefabs
 	
 done featues
 	have a flipable object and be able to flip it
@@ -26,3 +25,5 @@ done featues
 		standing on bottom
 	was flipped midair
 	main menu
+	pause menu
+	dynamically spawn prefabs (pause menu, game hud)

@@ -6,7 +6,7 @@ public class PauseMenu : MonoBehaviour
 {
     void Start()
     {
-        
+        Debug.Log("PauseMenu instantiated");
     }
 
     void Update()
@@ -14,13 +14,15 @@ public class PauseMenu : MonoBehaviour
         
     }
 
-    void ActionResumeGame()
+    public void ActionResumeGame()
     {
+        Debug.Log("PauseMenu ActionResumeGame");
         StateController.Instance.TransitionPlaying();
     }
 
-    void ActionMainMenu()
+    public void ActionMainMenu()
     {
+        Debug.Log("PauseMenu ActionMainMenu");
         StateController.Instance.TransitionMainMenu();
     }
 }

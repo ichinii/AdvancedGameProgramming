@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StateController.Instance.TransitionMainMenu();
+        //StateController.Instance.TransitionMainMenu();
     }
 
     // Update is called once per frame
@@ -30,6 +30,7 @@ public class MainMenu : MonoBehaviour
 
     public void ActionQuit()
     {
+        Debug.Log("ActionQuit");
         Application.Quit();
     }
 }

@@ -121,12 +121,10 @@ public class Flipable : MonoBehaviour
     {
         // get the direction of the flip
         var sign = Mathf.Sign(Vector3.Dot(transform.right, m_prevUp));
-        Debug.Log(Vector3.Dot(transform.right, m_prevUp));
 
         // reset the flip angle if the direction changes
         if (sign != m_flipAngleSign) {
             m_flipAngle = 0.0f;
-            //Debug.Log(sign);
             m_flipAngleSign = sign;
         }
 
@@ -142,7 +140,6 @@ public class Flipable : MonoBehaviour
         if (m_flipAngle >= threshold) {
             ++m_flipCount;
             m_flipAngle -= threshold;
-            Debug.Log(m_flipCount);
         }
     }
 
