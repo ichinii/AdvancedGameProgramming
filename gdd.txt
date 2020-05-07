@@ -1,5 +1,4 @@
 must have featues
-	is flipable indication (is standing on ground)
 	flipping indication (a rope connecting cursor and object)
 	polish flipping (dont be able to move the cursor everywhere)
 	finish
@@ -27,3 +26,4 @@ done featues
 	main menu
 	pause menu
 	dynamically spawn prefabs (pause menu, game hud)
+	is flipable indication (is standing on ground)

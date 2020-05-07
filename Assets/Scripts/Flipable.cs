@@ -31,14 +31,28 @@ public class Flipable : MonoBehaviour
     {
         var rigidBody = GetComponent<Rigidbody>();
 
-        // accept new position only if we are standing and were flipped
+        // valid standing on ground
         if (IsStanding() && WasFlipped()) {
+            // accept new position only if we are standing and were flipped
             NoticeStandPosition();
+
+            // indicate that body is ready to be flipped
+            var material = GetComponent<MeshRenderer>().material;
+            material.SetColor("_BaseColor", new Color(0x55 / 255.0f, 0xFA / 255.0f, 0xBE / 255.0f, 1.0f));
+        }
         
-        // else reset to previous position
-        } else if (rigidBody.IsSleeping()) {
+        // body not moving but hasn't been flipped correctly
+        else if (rigidBody.IsSleeping()) {
+            // reset to previous position
             ResetStandPosition();
             ResetFlipCountValid();
+        }
+        
+        // body is flipping right now
+        else {
+            // indicate that body is not ready to be flipped
+            var material = GetComponent<MeshRenderer>().material;
+            material.SetColor("_BaseColor", new Color(0.5f, 0.5f, 0.5f, 0xFF));
         }
     }
 
