@@ -38,6 +38,7 @@ public class PersistController : Singleton<PersistController>
             if (file != null) {
                 m_recentLevel = (int)formatter.Deserialize(file);
                 m_isLoaded = true;
+                file.Close();
             }
         }
     }
@@ -47,6 +48,7 @@ public class PersistController : Singleton<PersistController>
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream file = File.Open(m_filePath, FileMode.Create);
         formatter.Serialize(file, m_recentLevel);
+        file.Close();
     }
 
     public void Reset()

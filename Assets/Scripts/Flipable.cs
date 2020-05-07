@@ -189,6 +189,13 @@ public class Flipable : MonoBehaviour
             StateController.Instance.RotateLevel();
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        // sometimes easier with this, but sometimes strange
+        if (collision.contactCount > 0)
+            GetComponent<Rigidbody>().AddForceAtPosition(collision.impulse * 10.0f, collision.contacts[0].point);
+    }
+
     private void OnDrawGizmos()
     {
         var leftFoot = LeftFootPosition();
